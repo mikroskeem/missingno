@@ -48,7 +48,7 @@ inline fun <reified T: Listener> Plugin.registerListener() {
  *
  * @param T Class implementing [Command]
  */
-inline fun <reified T: Command> Plugin.registerCommand(name: String) {
+inline fun <reified T: Command> Plugin.registerCommand() {
     val command = T::class.java.getConstructor().newInstance()
     proxy.pluginManager.registerCommand(this, command)
 }

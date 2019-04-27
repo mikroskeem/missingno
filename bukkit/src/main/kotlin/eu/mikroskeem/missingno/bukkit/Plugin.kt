@@ -52,6 +52,7 @@ inline fun <reified T: Listener> Plugin.registerListener() {
  * Registers a command. Note that supplied [CommandExecutor] must have no-args constructor.
  *
  * @param T Class implementing [CommandExecutor]
+ * @param name Command name
  */
 inline fun <reified T: CommandExecutor> JavaPlugin.registerCommand(name: String) {
     val commandExecutor = T::class.java.getConstructor().newInstance()
