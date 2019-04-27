@@ -25,35 +25,26 @@
 
 package eu.mikroskeem.missingno.bungee
 
-import net.md_5.bungee.api.plugin.Command
-import net.md_5.bungee.api.plugin.Listener
-import net.md_5.bungee.api.plugin.Plugin
+import net.md_5.bungee.api.ProxyServer
+import net.md_5.bungee.api.connection.ProxiedPlayer
+import net.md_5.bungee.api.plugin.PluginManager
 
 /**
  * @author Mark Vainomaa
  */
 
 /**
- * Registers a listener. Note that supplied [Listener] must have no-args constructor
- *
- * @param T Class implementing [Listener]
+ * Gets proxy
  */
-inline fun <reified T: Listener> Plugin.registerListener() {
-    val listener = T::class.java.getConstructor().newInstance()
-    proxy.pluginManager.registerListener(this, listener)
-}
+val proxy: ProxyServer get() = ProxyServer.getInstance()
+val server: ProxyServer get() = proxy
 
 /**
- * Registers a command. Note that supplied [Command] must have no-args constructor.
- *
- * @param T Class implementing [Command]
+ * Gets server plugin manager
  */
-inline fun <reified T: Command> Plugin.registerCommand() {
-    val command = T::class.java.getConstructor().newInstance()
-    proxy.pluginManager.registerCommand(this, command)
-}
+val pluginManager: PluginManager get() = proxy.pluginManager
 
 /**
- * Gets [Plugin] JAR path
+ * Gets current online players
  */
-val Plugin.path get() = this.file.toPath()
+val onlinePlayers: Collection<ProxiedPlayer> get() = proxy.players

@@ -23,37 +23,43 @@
  * THE SOFTWARE.
  */
 
-package eu.mikroskeem.missingno.bungee
+package eu.mikroskeem.missingno.bukkit
 
-import net.md_5.bungee.api.plugin.Command
-import net.md_5.bungee.api.plugin.Listener
-import net.md_5.bungee.api.plugin.Plugin
+import org.bukkit.plugin.Plugin
 
 /**
  * @author Mark Vainomaa
  */
 
 /**
- * Registers a listener. Note that supplied [Listener] must have no-args constructor
+ * Runs a task
  *
- * @param T Class implementing [Listener]
+ * @param async Whether task should be scheduled async or not
+ * @param task Task to run
  */
-inline fun <reified T: Listener> Plugin.registerListener() {
-    val listener = T::class.java.getConstructor().newInstance()
-    proxy.pluginManager.registerListener(this, listener)
+fun Plugin.runTask(async: Boolean = false, task: () -> Unit) {
+    if(async) {
+        server.scheduler.runTaskAsynchronously(this, task)
+    } else {
+        server.scheduler.runTask(this, task)
+    }
 }
 
 /**
- * Registers a command. Note that supplied [Command] must have no-args constructor.
+ * Runs task later
  *
- * @param T Class implementing [Command]
+ * @param async Whether task should be scheduled async or not
+ * @param delay How many ticks later should task be scheduled
+ * @param task Task to run
  */
-inline fun <reified T: Command> Plugin.registerCommand() {
-    val command = T::class.java.getConstructor().newInstance()
-    proxy.pluginManager.registerCommand(this, command)
+fun Plugin.runTaskLater(async: Boolean = false, delay: Long, task: () -> Unit) {
+    if(delay == 0L) {
+        runTask(async, task)
+        return
+    }
+    if(async) {
+        server.scheduler.runTaskLaterAsynchronously(this, task, delay)
+    } else {
+        server.scheduler.runTaskLater(this, task, delay)
+    }
 }
-
-/**
- * Gets [Plugin] JAR path
- */
-val Plugin.path get() = this.file.toPath()

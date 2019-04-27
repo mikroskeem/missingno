@@ -32,6 +32,8 @@ import org.bukkit.command.TabCompleter
 import org.bukkit.event.Listener
 import org.bukkit.plugin.Plugin
 import org.bukkit.plugin.java.JavaPlugin
+import java.io.File
+import java.lang.invoke.MethodHandles
 import java.util.Locale
 
 /**
@@ -78,3 +80,13 @@ inline fun <reified T: CommandExecutor> JavaPlugin.registerCommand(name: String)
         server.commandMap.register(name.toLowerCase(Locale.ENGLISH), wrappedCommand)
     }
 }
+
+/**
+ * Gets [Plugin] JAR path
+ */
+val JavaPlugin.path get() = (javaPluginFileField.invokeExact(this) as File).toPath()
+
+
+// Reflection woo
+private val javaPluginFileField = MethodHandles.lookup()
+        .findGetter(JavaPlugin::class.java, "file", File::class.java)

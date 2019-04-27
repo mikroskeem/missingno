@@ -23,37 +23,28 @@
  * THE SOFTWARE.
  */
 
-package eu.mikroskeem.missingno.bungee
+package eu.mikroskeem.missingno.bukkit
 
-import net.md_5.bungee.api.plugin.Command
-import net.md_5.bungee.api.plugin.Listener
-import net.md_5.bungee.api.plugin.Plugin
+import org.bukkit.Bukkit
+import org.bukkit.Server
+import org.bukkit.entity.Player
+import org.bukkit.plugin.PluginManager
 
 /**
  * @author Mark Vainomaa
  */
 
 /**
- * Registers a listener. Note that supplied [Listener] must have no-args constructor
- *
- * @param T Class implementing [Listener]
+ * Gets server
  */
-inline fun <reified T: Listener> Plugin.registerListener() {
-    val listener = T::class.java.getConstructor().newInstance()
-    proxy.pluginManager.registerListener(this, listener)
-}
+val server: Server get() = Bukkit.getServer()
 
 /**
- * Registers a command. Note that supplied [Command] must have no-args constructor.
- *
- * @param T Class implementing [Command]
+ * Gets server plugin manager
  */
-inline fun <reified T: Command> Plugin.registerCommand() {
-    val command = T::class.java.getConstructor().newInstance()
-    proxy.pluginManager.registerCommand(this, command)
-}
+val pluginManager: PluginManager get() = Bukkit.getPluginManager()
 
 /**
- * Gets [Plugin] JAR path
+ * Gets current online players
  */
-val Plugin.path get() = this.file.toPath()
+val onlinePlayers: Collection<Player> get() = Bukkit.getOnlinePlayers()
