@@ -28,4 +28,23 @@ package eu.mikroskeem.missingno.collections
 /**
  * @author Mark Vainomaa
  */
+
+/**
+ * Gets first from iterator, or null
+ */
 fun <T> Iterator<T>.firstOrNull(): T? = if(this.hasNext()) this.next() else null
+
+/**
+ * Gets first from iterator, or throws if there is none
+ */
+fun <T> Iterator<T>.first(): T = if(this.hasNext()) this.next() else throw IllegalStateException("Iterator is empty!")
+
+/**
+ * Peeks into iterable collection
+ *
+ * Note: [Collection.asSequence] is usually better choice
+ */
+inline fun <T: Any?, C: Collection<T>> C.peek(consumer: (T) -> Unit): C {
+    this.forEach(consumer)
+    return this
+}
