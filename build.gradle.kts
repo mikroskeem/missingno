@@ -1,5 +1,5 @@
 buildscript {
-    val kotlinVersion = "1.3.31"
+    val kotlinVersion = "1.3.50"
     val dokkaVersion = "0.9.18"
     val licenserVersion = "0.4.1"
 
@@ -37,6 +37,7 @@ subprojects {
     repositories {
         mavenCentral()
         jcenter()
+        maven("https://maven.cu-mc.com/repository/maven-public")
     }
 
     dependencies {
@@ -70,7 +71,20 @@ subprojects {
         }
         repositories {
             mavenLocal()
+            if (rootProject.hasProperty("cumavenpublic.repository.deploy.username") && rootProject.hasProperty("cumavenpublic.repository.deploy.password")) {
+                maven("https://maven.cu-mc.com/repository/maven-public") {
+                    credentials {
+                        username = rootProject.property("cumavenpublic.repository.deploy.username") as String
+                        password = rootProject.property("cumavenpublic.repository.deploy.password") as String
+                    }
+                }
+            }
         }
+    }
+
+    java {
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
     }
 
     signing {
