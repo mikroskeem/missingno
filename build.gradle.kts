@@ -1,5 +1,5 @@
 buildscript {
-    val kotlinVersion = "1.3.50"
+    val kotlinVersion = "1.3.61"
     val dokkaVersion = "0.9.18"
     val licenserVersion = "0.4.1"
 
@@ -37,7 +37,7 @@ subprojects {
     repositories {
         mavenCentral()
         jcenter()
-        maven("https://maven.cu-mc.com/repository/maven-public")
+        maven("https://repo.wut.ee/repository/mikroskeem-repo")
     }
 
     dependencies {
@@ -71,11 +71,11 @@ subprojects {
         }
         repositories {
             mavenLocal()
-            if (rootProject.hasProperty("cumavenpublic.repository.deploy.username") && rootProject.hasProperty("cumavenpublic.repository.deploy.password")) {
-                maven("https://maven.cu-mc.com/repository/maven-public") {
+            if (rootProject.hasProperty("wutee.repository.deploy.username") && rootProject.hasProperty("wutee.repository.deploy.password")) {
+                maven("https://repo.wut.ee/repository/mikroskeem-repo") {
                     credentials {
-                        username = rootProject.property("cumavenpublic.repository.deploy.username") as String
-                        password = rootProject.property("cumavenpublic.repository.deploy.password") as String
+                        username = rootProject.property("wutee.repository.deploy.username") as String
+                        password = rootProject.property("wutee.repository.deploy.password") as String
                     }
                 }
             }
